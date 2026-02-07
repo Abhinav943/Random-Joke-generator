@@ -181,7 +181,7 @@ function App() {
               setAutoMode(!automode);
             }}
           >
-            Turn {automode ? "On" : "Off"} Automode
+            Turn {automode ? "Off" : "On"} Automode
           </button>
         </div>
       </div>
