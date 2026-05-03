@@ -83,7 +83,6 @@ function App() {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(joke);
-    // Simple alert or toast could be added here
   };
 
   const shareJoke = () => {
@@ -149,22 +148,30 @@ function App() {
     }
   }, [automode, fetchData]);
 
-  // Typewriter effect
   useEffect(() => {
-    if (isLoading || !joke) return;
+    if (isLoading || !joke) {
+      setCurrentJoke("");
+      return;
+    }
+
     let index = 0;
+    let timeoutId;
     setCurrentJoke("");
 
-    const typewriterId = setInterval(() => {
+    const type = () => {
       if (index < joke.length) {
-        setCurrentJoke((prev) => prev + joke[index]);
+        const char = joke[index];
+        setCurrentJoke((prev) => prev + char);
         index++;
-      } else {
-        clearInterval(typewriterId);
+        timeoutId = setTimeout(type, 30);
       }
-    }, 30);
+    };
 
-    return () => clearInterval(typewriterId);
+    type();
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, [joke, isLoading]);
 
   return (
